@@ -13,8 +13,6 @@ env:
 jobs:
   docker:
     runs-on: ubuntu-latest
-    container: 
-        image: mondoo/cnspec:latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
