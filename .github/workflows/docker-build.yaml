@@ -8,10 +8,13 @@ on:
 env:
   TEST_TAG: thesecureautomator/flask-app:test
   LATEST_TAG: thesecureautomator/flask-app:latest
+  MONDOO_CONFIG_BASE64: ${{ secrets.MONDOO_CONFIG_BASE64 }}
 
 jobs:
   docker:
     runs-on: ubuntu-latest
+    container: 
+        image: mondoo/cnspec:latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -35,8 +38,9 @@ jobs:
           load: true
           tags: ${{ env.TEST_TAG }}
 
-      - name: Test
+      - name: Security Scan
         run: |
+          cnspec status
           echo ${{ env.TEST_TAG }}
 
       - name: Build and push
