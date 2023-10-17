@@ -37,6 +37,8 @@ jobs:
           tags: ${{ env.TEST_TAG }}
 
       - name: Security Scan
+        env:
+            MONDOO_CONFIG_BASE64: ${{ secrets.MONDOO_CONFIG_BASE64 }}
         run: |
           echo "#### INSTALLING CNSPEC"
           bash -c "$(curl -sSL https://install.mondoo.com/sh)"
