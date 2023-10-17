@@ -38,10 +38,12 @@ jobs:
 
       - name: Security Scan
         run: |
-          echo "Installing cnspec"
+          echo "#### INSTALLING CNSPEC"
           bash -c "$(curl -sSL https://install.mondoo.com/sh)"
+          echo "#### RUNNING VALIDATING CNSPEC"
           cnspec status
-          cnspec vuln docker ${{ env.TEST_TAG }}
+          echo "#### SCANNING DOCKER IMAGE FOR VULNERABILITIES"
+          cnspec vuln docker ${{ env.TEST_TAG }} --detect-cicd
 
       - name: Build and push
         uses: docker/build-push-action@v5
