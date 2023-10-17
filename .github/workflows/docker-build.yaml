@@ -45,7 +45,7 @@ jobs:
           echo "#### RUNNING VALIDATING CNSPEC"
           cnspec status
           echo "#### SCANNING DOCKER IMAGE FOR VULNERABILITIES"
-          cnspec vuln docker ${{ env.TEST_TAG }} --detect-cicd
+          cnspec vuln docker ${{ env.TEST_TAG }}
 
       - name: Build and push
         uses: docker/build-push-action@v5
