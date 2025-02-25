@@ -39,7 +39,8 @@ jobs:
       - name: Security Scan
         uses: mondoohq/actions/docker-image@v11.0.0
         with:
-          image: ${{ env.LATEST_TAG }} 
+          image: ${{ env.LATEST_TAG }}
+          score-threshold: 100
 
       - name: Build and push
         uses: docker/build-push-action@v5
