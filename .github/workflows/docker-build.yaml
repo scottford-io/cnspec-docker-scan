@@ -1,9 +1,11 @@
-name: ci
+name: docker-build-push
 
 on:
   pull_request:
     branches:
       - "main"
+  workflow_dispatch:
+    
 
 env:
   TEST_TAG: thesecureautomator/flask-app:test
@@ -41,6 +43,7 @@ jobs:
         with:
           image: ${{ env.LATEST_TAG }}
           score-threshold: 100
+          log-level: debug
 
       - name: Build and push
         uses: docker/build-push-action@v5
