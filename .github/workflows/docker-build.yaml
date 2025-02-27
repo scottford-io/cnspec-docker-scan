@@ -1,9 +1,11 @@
-name: ci
+name: docker-build-push
 
 on:
-  push:
+  pull_request:
     branches:
       - "main"
+  workflow_dispatch:
+    
 
 env:
   TEST_TAG: thesecureautomator/flask-app:test
@@ -37,15 +39,11 @@ jobs:
           tags: ${{ env.TEST_TAG }}
 
       - name: Security Scan
-        env:
-            MONDOO_CONFIG_BASE64: ${{ secrets.MONDOO_CONFIG_BASE64 }}
-        run: |
-          echo "#### INSTALLING CNSPEC"
-          bash -c "$(curl -sSL https://install.mondoo.com/sh)"
-          echo "#### RUNNING VALIDATING CNSPEC"
-          cnspec status
-          echo "#### SCANNING DOCKER IMAGE FOR VULNERABILITIES"
-          cnspec vuln docker ${{ env.TEST_TAG }}
+        uses: mondoohq/actions/docker-image@v11.0.0
+        with:
+          image: ${{ env.LATEST_TAG }}
+          score-threshold: 100
+          log-level: debug
 
       - name: Build and push
         uses: docker/build-push-action@v5
